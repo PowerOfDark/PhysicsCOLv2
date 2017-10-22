@@ -34,3 +34,7 @@
 # CLion files
 cmake-build-debug/
 .idea/
+
+.vs/
+Debug/
+SFML/
