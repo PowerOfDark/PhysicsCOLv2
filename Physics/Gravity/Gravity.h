@@ -7,10 +7,11 @@
 
 #include "../Entity/Circle.h"
 
-namespace Gravity {
-    void Attract(Circle &c1, Circle &c2);
+namespace Gravity
+{
+	void Attract(Circle& c1, Circle& c2);
 
-    void Reject(sf::Vector2f &, Circle &);
+	void Reject(sf::Vector2f&, Circle&);
 };
 
 
