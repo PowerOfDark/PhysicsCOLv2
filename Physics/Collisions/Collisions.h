@@ -8,13 +8,13 @@
 #include <SFML/Graphics.hpp>
 #include "../Entity/Circle.h"
 
-namespace Collision {
+namespace Collision
+{
+	bool DetectCollision(Circle& c1, Circle& c2);
 
-    bool DetectCollision(Circle &c1, Circle &c2);
+	void Collide(Circle& c1, Circle& c2);
 
-    void Collide(Circle &c1, Circle &c2);
-
-    void DetectWallCollision(Circle &c1, sf::RenderWindow &window);
+	void DetectWallCollision(Circle& c1, sf::RenderWindow& window);
 };
 
 #endif //PONGSFML_COLLISIONS_H

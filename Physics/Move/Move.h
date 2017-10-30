@@ -7,8 +7,9 @@
 
 #include "../Entity/Circle.h"
 
-namespace Move {
-    void update(Circle &c);
+namespace Move
+{
+	void update(Circle& c);
 };
 
 #endif //PONGSFML_MOVE_H
