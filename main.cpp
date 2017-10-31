@@ -56,7 +56,13 @@ int main()
 				window.close();
 			}
 		}
-
+		for (int i = 0; i < circles.size(); i++)
+		{
+			for (int j = i + 1; j < circles.size(); j++)
+			{
+				Gravity::Attract(circles[i], circles[j]);
+			}
+		}
 		for (auto& circle : circles)
 		{
 			Collision::DetectWallCollision(circle, window);
@@ -71,13 +77,7 @@ int main()
 				}
 			}
 		}
-		for (int i = 0; i < circles.size(); i++)
-		{
-			for (int j = i + 1; j < circles.size(); j++)
-			{
-				Gravity::Attract(circles[i], circles[j]);
-			}
-		}
+
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			sf::Vector2f mousepos;
