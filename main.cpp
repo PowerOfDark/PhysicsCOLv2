@@ -10,6 +10,7 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include <map>
 
 #ifdef _MSC_VER
 #include <Windows.h>
@@ -25,11 +26,12 @@ inline int min(int a, int b)
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(1300, 700, 32), "test");
+	sf::RenderWindow window(sf::VideoMode(1300, 700, 32), "Physics collision simulator");
 	std::vector<Circle> circles;
 
 	srand(time(nullptr));
-
+	window.setFramerateLimit(60);
+	
 	for (int i = 0; i < 200; i++)
 	{
 		sf::CircleShape circletmp;
@@ -40,11 +42,8 @@ int main()
 		circletmp.setFillColor(sf::Color(sf::Uint8(rand() % 254), sf::Uint8(rand() % 254), sf::Uint8(rand() % 254)));
 		//circletmp.setFillColor(sf::Color(sf::Uint8 (fillcolor/2),sf::Uint8 (fillcolor),sf::Uint8 (fillcolor)));
 
-		circles.emplace_back(circletmp);
-		//circles[circles.size()-1].vx = float((rand()%20)+10)/100.f;
-		//circles[circles.size()-1].vy = float((rand()%20)+10)/100.f;
+		circles.emplace_back(circletmp, 100 + (rand()%1000));
 		circles[circles.size() - 1].circleMass = (circles[circles.size() - 1].circleShape.getRadius()) / 10;
-		//circles[circles.size()-1].circleMass =rand()%10+1;
 	}
 
 	while (window.isOpen())
@@ -89,7 +88,7 @@ int main()
 				Gravity::Reject(mousepos, circle);
 			}
 		}
-		std::this_thread::sleep_for(std::chrono::microseconds(1));
+		//std::this_thread::sleep_for(std::chrono::microseconds(1));
 		//window.clear(sf::Color(10, 150, 250));
 		window.clear(sf::Color::Black);
 		for (auto& circle : circles)

@@ -8,26 +8,17 @@
 
 bool Collision::DetectCollision(Circle& c1, Circle& c2)
 {
-	if (Math::Pythagoras(
-			c1.circleShape.getPosition().x + c1.circleShape.getRadius(),
-			c1.circleShape.getPosition().y + c1.circleShape.getRadius(),
-			c2.circleShape.getPosition().x + c2.circleShape.getRadius(),
-			c2.circleShape.getPosition().y + c2.circleShape.getRadius()) <=
-		c1.circleShape.getRadius() + c2.circleShape.getRadius())
-	{
-		return true;
-	}
-	return false;
+	float distance = Math::Pythagoras(c1.getEdgeX(), c1.getEdgeY(),
+		c2.getEdgeX(), c2.getEdgeY());
+	return distance <= (c1.getRadius() + c2.getRadius());
 }
 
 void Collision::Collide(Circle& c1, Circle& c2)
 {
-	float vec1x = c2.circleShape.getPosition().x + c2.circleShape.getRadius() - c1.circleShape.getPosition().x -
-		c1.circleShape.getRadius();
-	float vec1y = c2.circleShape.getPosition().y + c2.circleShape.getRadius() - c1.circleShape.getPosition().y -
-		c1.circleShape.getRadius();
+	float vec1x = c2.getEdgeX() - c1.getEdgeX();
+	float vec1y = c2.getEdgeY() - c1.getEdgeY();
 	float pythDistance = Math::Pythagoras(vec1x, vec1y);
-	float offsetDistance = fabsf(pythDistance - c1.circleShape.getRadius() - c2.circleShape.getRadius());
+	float offsetDistance = fabsf(pythDistance - c1.getRadius() - c2.getRadius());
 	sf::Vector2f offset;
 	float k = offsetDistance / pythDistance;
 	offset.x = k * vec1x;
@@ -38,10 +29,8 @@ void Collision::Collide(Circle& c1, Circle& c2)
 	//zac - c1
 	//vec1 - temporary vector
 
-	vec1x = c2.circleShape.getPosition().x + c2.circleShape.getRadius() - c1.circleShape.getPosition().x -
-		c1.circleShape.getRadius();
-	vec1y = c2.circleShape.getPosition().y + c2.circleShape.getRadius() - c1.circleShape.getPosition().y -
-		c1.circleShape.getRadius();
+	vec1x = c2.getEdgeX() - c1.getEdgeX();
+	vec1y = c2.getEdgeY() - c1.getEdgeY();
 	//float angle = acosf(Math::ScalarProduct(vec1x,vec1y,c1.vx-c2.vx,c1.vy-c2.vy)/(Math::Pythagoras(vec1x,vec1y)*Math::Pythagoras(c1.vx-c2.vx,c1.vy-c2.vy)));
 	float newvlength = (Math::CrossProduct(vec1x, vec1y, c1.vx - c2.vx, c1.vy - c2.vy) /
 			(Math::Pythagoras(vec1x, vec1y) * Math::Pythagoras(c1.vx - c2.vx, c1.vy - c2.vy))) *
@@ -61,26 +50,30 @@ void Collision::Collide(Circle& c1, Circle& c2)
 
 void Collision::DetectWallCollision(Circle& c1, sf::RenderWindow& window)
 {
-	if (c1.circleShape.getPosition().x <= 0)
+	float wx = window.getSize().x;
+	float wy = window.getSize().y;
+	float cx = c1.getPosX();
+	float cy = c1.getPosY();
+
+	if (cx <= 0)
 	{
 		c1.vx = -c1.vx;
-		c1.circleShape.setPosition(0.01f, c1.circleShape.getPosition().y);
+		cx = 0.01f;
 	}
-	if (c1.circleShape.getRadius() * 2 + c1.circleShape.getPosition().x >= window.getSize().x)
+	if (cx >= wx)
 	{
 		c1.vx = -c1.vx;
-		c1.circleShape.setPosition(window.getSize().x - 0.01f - c1.circleShape.getRadius() * 2,
-		                           c1.circleShape.getPosition().y);
+		cx = wx - c1.getRadius() - 0.01f;
 	}
-	if (c1.circleShape.getPosition().y <= 0)
+	if (cy <= 0)
 	{
 		c1.vy = -c1.vy;
-		c1.circleShape.setPosition(c1.circleShape.getPosition().x, 0.01f);
+		cy = 0.01f;
 	}
-	if (c1.circleShape.getRadius() * 2 + c1.circleShape.getPosition().y >= window.getSize().y)
+	if (cy >= wy)
 	{
 		c1.vy = -c1.vy;
-		c1.circleShape.setPosition(c1.circleShape.getPosition().x,
-		                           window.getSize().y - 0.01f - c1.circleShape.getRadius() * 2);
+		cy = wy - c1.getRadius() - 0.01f;
 	}
+	c1.setPosition(cx, cy);
 }

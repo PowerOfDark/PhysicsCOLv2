@@ -34,6 +34,48 @@ public:
 		this->vx = vx;
 		this->vy = vy;
 	}
+
+	const float getPosX()
+	{
+		return getPosition().x;
+	}
+
+	const float getPosY()
+	{
+		return getPosition().y;
+	}
+
+	const float getRadius()
+	{
+		return circleShape.getRadius();
+	}
+
+	const sf::Vector2f& getPosition()
+	{
+		return circleShape.getPosition();
+	}
+
+	const float getEdgeX()
+	{
+		return getPosX() + getRadius();
+	}
+
+	const float getEdgeY()
+	{
+		return getPosY() + getRadius();
+	}
+
+	const void setPosition(const sf::Vector2f& pos)
+	{
+		circleShape.setPosition(pos);
+	}
+
+	const void setPosition(float x, float y)
+	{
+		circleShape.setPosition(x, y);
+	}
+
+
 };
 
 
